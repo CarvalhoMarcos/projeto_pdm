@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_pdm/pages/pageCobertura.dart';
 import 'package:projeto_pdm/pages/pageEspecialidade.dart';
+import 'package:projeto_pdm/pages/pageTipoPagamento.dart';
 
 class PaginaInicial extends StatelessWidget {
   @override
@@ -33,6 +34,19 @@ class PaginaInicial extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ListaEspecialidades(),
+                    ));
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.loupe),
+              title: Text("Formas de Pagamento"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FormasPagamento(),
                     ));
               },
             ),

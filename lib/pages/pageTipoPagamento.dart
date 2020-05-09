@@ -2,45 +2,45 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/formularios/FormCobertura.dart';
-import 'package:projeto_pdm/model/Cobertura.dart';
+import 'package:projeto_pdm/formularios/FormFormaPagamento.dart';
+import 'package:projeto_pdm/model/FormaPagamento.dart';
 
-class ListaCoberturas extends StatefulWidget {
+class FormasPagamento extends StatefulWidget {
   @override
-  _ListaCoberturasState createState() => _ListaCoberturasState();
+  _FormasPagamentoState createState() => _FormasPagamentoState();
 }
 
-class _ListaCoberturasState extends State<ListaCoberturas> {
+class _FormasPagamentoState extends State<FormasPagamento> {
   var db = Firestore.instance;
-  List<Cobertura> coberturas;
+  List<FormaPagamento> formasPagamento;
 
-  StreamSubscription<QuerySnapshot> cadastroCobertura;
+  StreamSubscription<QuerySnapshot> cadastroFormasPagamento;
 
   @override
   void initState() {
     super.initState();
 
-    coberturas = List();
-    cadastroCobertura?.cancel();
+    formasPagamento = List();
+    cadastroFormasPagamento?.cancel();
 
-    cadastroCobertura =
-        db.collection("coberturas").snapshots().listen((snapshot) {
-      final List<Cobertura> coberturas = snapshot.documents
+    cadastroFormasPagamento =
+        db.collection("formasPagamento").snapshots().listen((snapshot) {
+      final List<FormaPagamento> tiposPagamento = snapshot.documents
           .map(
-            (documentSnapshot) => Cobertura.fromMap(
+            (documentSnapshot) => FormaPagamento.fromMap(
                 documentSnapshot.data, documentSnapshot.documentID),
           )
           .toList();
 
       setState(() {
-        this.coberturas = coberturas;
+        this.formasPagamento = tiposPagamento;
       });
     });
   }
 
   @override
   void dispose() {
-    cadastroCobertura?.cancel();
+    cadastroFormasPagamento?.cancel();
     super.dispose();
   }
 
@@ -48,12 +48,12 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Coberturas"),
+        title: Text("Formas de Pagamento"),
       ),
       body: Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            stream: getListaCoberturas(),
+            stream: getListaFormasPagamento(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -72,22 +72,22 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
                         itemCount: documentos.length,
                         itemBuilder: (context, index) {
                           return Dismissible(
-                            key: Key(coberturas[index].descricao),
+                            key: Key(formasPagamento[index].descricao),
                             child: Card(
                               child: ListTile(
                                 title: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: (Text(coberturas[index].descricao)),
+                                  child: (Text(formasPagamento[index].descricao)),
                                 ),
                                 onTap: () =>
-                                    _irParaCbertura(context, coberturas[index]),
+                                    _irParaFormaPagamento(context, formasPagamento[index]),
                               ),
                             ),
                             background: Container(
                               color: Colors.red.withOpacity(0.8),
                             ),
                             onDismissed: (direction) {
-                              _excluirCobertura(
+                              _excluirFormaPagamento(
                                   context, documentos[index], index);
                             },
                           );
@@ -99,37 +99,37 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _criarCobertura(context, Cobertura(null, "")),
+        onPressed: () => _criarFormaPagamento(context, FormaPagamento(null, "")),
         child: Icon(Icons.add),
       ),
     );
   }
 
-  Stream<QuerySnapshot> getListaCoberturas() {
-    return Firestore.instance.collection("coberturas").snapshots();
+  Stream<QuerySnapshot> getListaFormasPagamento() {
+    return Firestore.instance.collection("formasPagamento").snapshots();
   }
 
-  void _excluirCobertura(
+  void _excluirFormaPagamento(
       BuildContext context, DocumentSnapshot doc, int position) async {
-    db.collection("coberturas").document(doc.documentID).delete();
+    db.collection("formasPagamento").document(doc.documentID).delete();
 
     setState(() {
-      coberturas.removeAt(position);
+      formasPagamento.removeAt(position);
     });
   }
 
-  void _irParaCbertura(context, Cobertura cobertura) async {
+  void _irParaFormaPagamento(context, FormaPagamento formaPagamento) async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => FormularioCobertura(cobertura)));
+            builder: (context) => FormularioFormaPagamento(formaPagamento)));
   }
 
-  void _criarCobertura(BuildContext context, Cobertura cobertura) async {
+  void _criarFormaPagamento(BuildContext context, FormaPagamento formaPagamento) async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => FormularioCobertura(Cobertura(null, ""))));
+            builder: (context) => FormularioFormaPagamento(FormaPagamento(null, ""))));
     //setState(() {});
   }
 }
