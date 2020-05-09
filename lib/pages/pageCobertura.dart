@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/formularios/FormCobertura.dart';
 import 'package:projeto_pdm/model/Cobertura.dart';
+import 'package:projeto_pdm/services/CoberturaService.dart';
 
 class ListaCoberturas extends StatefulWidget {
   @override
@@ -23,14 +23,10 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
     coberturas = List();
     cadastroCobertura?.cancel();
 
-    cadastroCobertura =
-        db.collection("coberturas").snapshots().listen((snapshot) {
-      final List<Cobertura> coberturas = snapshot.documents
-          .map(
-            (documentSnapshot) => Cobertura.fromMap(
-                documentSnapshot.data, documentSnapshot.documentID),
-          )
-          .toList();
+    cadastroCobertura = db.collection("coberturas").snapshots().listen((snapshot) {
+      final List<Cobertura> coberturas = snapshot.documents.map(
+            (documentSnapshot) => Cobertura.fromMap(documentSnapshot.data, documentSnapshot.documentID),
+          ).toList();
 
       setState(() {
         this.coberturas = coberturas;
@@ -53,7 +49,7 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
       body: Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            stream: getListaCoberturas(),
+            stream: CoberturaService().getListaCoberturas(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -80,15 +76,15 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
                                   child: (Text(coberturas[index].descricao)),
                                 ),
                                 onTap: () =>
-                                    _irParaCbertura(context, coberturas[index]),
+                                    CoberturaService().irParaCbertura(context, coberturas[index]),
                               ),
                             ),
                             background: Container(
                               color: Colors.red.withOpacity(0.8),
                             ),
                             onDismissed: (direction) {
-                              _excluirCobertura(
-                                  context, documentos[index], index);
+                              CoberturaService().excluirCobertura(
+                                  context, documentos[index], index, setState, coberturas);
                             },
                           );
                         }),
@@ -99,37 +95,10 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _criarCobertura(context, Cobertura(null, "")),
+        onPressed: () => CoberturaService().criarCobertura(context, Cobertura(null, "")),
         child: Icon(Icons.add),
       ),
     );
   }
 
-  Stream<QuerySnapshot> getListaCoberturas() {
-    return Firestore.instance.collection("coberturas").snapshots();
-  }
-
-  void _excluirCobertura(
-      BuildContext context, DocumentSnapshot doc, int position) async {
-    db.collection("coberturas").document(doc.documentID).delete();
-
-    setState(() {
-      coberturas.removeAt(position);
-    });
-  }
-
-  void _irParaCbertura(context, Cobertura cobertura) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FormularioCobertura(cobertura)));
-  }
-
-  void _criarCobertura(BuildContext context, Cobertura cobertura) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FormularioCobertura(Cobertura(null, ""))));
-    //setState(() {});
-  }
 }

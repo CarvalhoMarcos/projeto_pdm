@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_pdm/formularios/Editor.dart';
 import 'package:projeto_pdm/model/Cobertura.dart';
+import 'package:projeto_pdm/services/coberturaService.dart';
 
 class FormularioCobertura extends StatefulWidget {
   final Cobertura cobertura;
@@ -38,16 +39,14 @@ class _FormularioCoberturaState extends State<FormularioCobertura> {
             onPressed: () {
               
               if(widget.cobertura.id != null){
-                db.collection("coberturas").document(widget.cobertura.id)
-                .setData({
+                CoberturaService().setData({
                   "descricao" : _ctrlDescricao.text
-                });
+                }, widget.cobertura);
                 Navigator.pop(context);
               }else{
-                db.collection("coberturas").document(widget.cobertura.id)
-                .setData({
+                CoberturaService().setData({
                   "descricao" : _ctrlDescricao.text
-                });
+                }, widget.cobertura);
                 Navigator.pop(context);
               }
             },

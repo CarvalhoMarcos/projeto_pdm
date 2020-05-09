@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/formularios/FormEspecialidade.dart';
 import 'package:projeto_pdm/model/Especialidade.dart';
+import 'package:projeto_pdm/services/EspecialidadeService.dart';
 
 class ListaEspecialidades extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _ListaEspecialidadesState extends State<ListaEspecialidades> {
       body: Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            stream: getListaEspecialidades(),
+            stream: EspecialidadeService().getListaEspecialidades(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -78,7 +78,7 @@ class _ListaEspecialidadesState extends State<ListaEspecialidades> {
                                   child: (Text(especialidades[index].descricao)),
                                 ),
                                 onTap: () =>
-                                    _irParaEspecialidade(context, especialidades[index]),
+                                    EspecialidadeService().irParaEspecialidade(context, especialidades[index]),
                               ),
                             ),
                             background: Container(
@@ -86,8 +86,8 @@ class _ListaEspecialidadesState extends State<ListaEspecialidades> {
 
                             ),
                             onDismissed: (direction) {
-                              _excluirEspecialidade(
-                                  context, documentos[index], index);
+                              EspecialidadeService().excluirEspecialidade(
+                                  context, documentos[index], index, setState, especialidades);
                             },
                           );
                         }),
@@ -97,30 +97,8 @@ class _ListaEspecialidadesState extends State<ListaEspecialidades> {
           )
         ]
       ),
-            floatingActionButton: FloatingActionButton(onPressed: () => _criarEspecialidade(context , Especialidade(null, "")),
+            floatingActionButton: FloatingActionButton(onPressed: () => EspecialidadeService().criarEspecialidade(context , Especialidade(null, "")),
       child: Icon(Icons.add),),
     );
-  }
-    Stream<QuerySnapshot> getListaEspecialidades() {
-    return Firestore.instance.collection("especialidades").snapshots();
-  }
-
-  void _excluirEspecialidade(
-      BuildContext context, DocumentSnapshot doc, int position) async {
-    db.collection("especialidades").document(doc.documentID).delete();
-
-    setState(() {
-      especialidades.removeAt(position);
-    });
-  }
-
-  void _irParaEspecialidade(context, Especialidade especialidade) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => FormularioEspecialidade(especialidade)));
-  }
-
-  void _criarEspecialidade(BuildContext context, Especialidade cobertura)async {
-    await Navigator.push(context, MaterialPageRoute(builder: 
-    (context) => FormularioEspecialidade(Especialidade(null, ""))));
-    //setState(() {});
   }
 }

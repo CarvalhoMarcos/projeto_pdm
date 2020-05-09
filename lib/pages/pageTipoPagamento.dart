@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/formularios/FormFormaPagamento.dart';
 import 'package:projeto_pdm/model/FormaPagamento.dart';
+import 'package:projeto_pdm/services/FormaPagamentoService.dart';
 
 class FormasPagamento extends StatefulWidget {
   @override
@@ -53,7 +53,7 @@ class _FormasPagamentoState extends State<FormasPagamento> {
       body: Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            stream: getListaFormasPagamento(),
+            stream: FormaPagamentoService().getListaFormasPagamento(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -80,15 +80,15 @@ class _FormasPagamentoState extends State<FormasPagamento> {
                                   child: (Text(formasPagamento[index].descricao)),
                                 ),
                                 onTap: () =>
-                                    _irParaFormaPagamento(context, formasPagamento[index]),
+                                    FormaPagamentoService().irParaFormaPagamento(context, formasPagamento[index]),
                               ),
                             ),
                             background: Container(
                               color: Colors.red.withOpacity(0.8),
                             ),
                             onDismissed: (direction) {
-                              _excluirFormaPagamento(
-                                  context, documentos[index], index);
+                              FormaPagamentoService().excluirFormaPagamento(
+                                  context, documentos[index], index, setState, formasPagamento);
                             },
                           );
                         }),
@@ -99,37 +99,10 @@ class _FormasPagamentoState extends State<FormasPagamento> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _criarFormaPagamento(context, FormaPagamento(null, "")),
+        onPressed: () => FormaPagamentoService().criarFormaPagamento(context, FormaPagamento(null, "")),
         child: Icon(Icons.add),
       ),
     );
   }
 
-  Stream<QuerySnapshot> getListaFormasPagamento() {
-    return Firestore.instance.collection("formasPagamento").snapshots();
-  }
-
-  void _excluirFormaPagamento(
-      BuildContext context, DocumentSnapshot doc, int position) async {
-    db.collection("formasPagamento").document(doc.documentID).delete();
-
-    setState(() {
-      formasPagamento.removeAt(position);
-    });
-  }
-
-  void _irParaFormaPagamento(context, FormaPagamento formaPagamento) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FormularioFormaPagamento(formaPagamento)));
-  }
-
-  void _criarFormaPagamento(BuildContext context, FormaPagamento formaPagamento) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FormularioFormaPagamento(FormaPagamento(null, ""))));
-    //setState(() {});
-  }
 }
