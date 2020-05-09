@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "68672613117",
+    "firebase_url": "https://projeto-pdm-10da1.firebaseio.com",
+    "project_id": "projeto-pdm-10da1",
+    "storage_bucket": "projeto-pdm-10da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68672613117:android:07ffcca3cc93a0a06f2c94",
+        "android_client_info": {
+          "package_name": "com.devclin.projeto_pdm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68672613117-n3r4769gp1ruhe17g9j2g1ead467v1ea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbX1kwBnavHNfiOuIdLCrKfjeBz0uMwSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68672613117-n3r4769gp1ruhe17g9j2g1ead467v1ea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
