@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/pages/pageCobertura.dart';
+import 'package:projeto_pdm/pages/pageInicial.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-      home: ListaCoberturas(),
+      home: PaginaInicial(),
     );
   }
 }

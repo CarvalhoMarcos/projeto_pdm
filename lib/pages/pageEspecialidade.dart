@@ -2,47 +2,43 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pdm/formularios/FormCobertura.dart';
-import 'package:projeto_pdm/model/Cobertura.dart';
+import 'package:projeto_pdm/formularios/FormEspecialidade.dart';
+import 'package:projeto_pdm/model/Especialidade.dart';
 
-
-class ListaCoberturas extends StatefulWidget {
+class ListaEspecialidades extends StatefulWidget {
   @override
-  _ListaCoberturasState createState() => _ListaCoberturasState();
+  _ListaEspecialidadesState createState() => _ListaEspecialidadesState();
 }
 
-class _ListaCoberturasState extends State<ListaCoberturas> {
+class _ListaEspecialidadesState extends State<ListaEspecialidades> {
   var db = Firestore.instance;
-  List<Cobertura> coberturas;
-  
+  List<Especialidade> especialidades;
 
-  StreamSubscription<QuerySnapshot> cadastroCobertura;
+  StreamSubscription<QuerySnapshot> cadastroEspecialidade;
 
   @override
   void initState() {
     super.initState();
 
-    coberturas = List();
-    cadastroCobertura?.cancel();
+    especialidades = List();
+    cadastroEspecialidade?.cancel();
 
-    cadastroCobertura =
-        db.collection("coberturas").snapshots().listen((snapshot) {
-      final List<Cobertura> coberturas = snapshot.documents
-          .map(
-            (documentSnapshot) => Cobertura.fromMap(
-                documentSnapshot.data, documentSnapshot.documentID),
-          )
+    cadastroEspecialidade =
+        db.collection("especialidades").snapshots().listen((snapshot) {
+      final List<Especialidade> especialidades = snapshot.documents
+          .map((documentSnapshot) => Especialidade.fromMap(
+              documentSnapshot.data, documentSnapshot.documentID))
           .toList();
 
       setState(() {
-        this.coberturas = coberturas;
+        this.especialidades = especialidades;
       });
     });
   }
 
   @override
-  void dispose() {
-    cadastroCobertura?.cancel();
+  void dispose(){
+    cadastroEspecialidade?.cancel();
     super.dispose();
   }
 
@@ -50,12 +46,12 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Coberturas"),
+        title: Text("Especialidades"),
       ),
       body: Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            stream: getListaCoberturas(),
+            stream: getListaEspecialidades(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -74,15 +70,15 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
                         itemCount: documentos.length,
                         itemBuilder: (context, index) {
                           return Dismissible(
-                            key: Key(coberturas[index].descricao),
+                            key: Key(especialidades[index].descricao),
                             child: Card(
                               child: ListTile(
                                 title: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: (Text(coberturas[index].descricao)),
+                                  child: (Text(especialidades[index].descricao)),
                                 ),
                                 onTap: () =>
-                                    _irParaCbertura(context, coberturas[index]),
+                                    _irParaEspecialidade(context, especialidades[index]),
                               ),
                             ),
                             background: Container(
@@ -90,7 +86,7 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
 
                             ),
                             onDismissed: (direction) {
-                              _excluirCobertura(
+                              _excluirEspecialidade(
                                   context, documentos[index], index);
                             },
                           );
@@ -99,35 +95,32 @@ class _ListaCoberturasState extends State<ListaCoberturas> {
               }
             },
           )
-        ],
+        ]
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () => _criarCobertura(context , Cobertura(null, "")),
+            floatingActionButton: FloatingActionButton(onPressed: () => _criarEspecialidade(context , Especialidade(null, "")),
       child: Icon(Icons.add),),
     );
   }
-
-  Stream<QuerySnapshot> getListaCoberturas() {
-    return Firestore.instance.collection("coberturas").snapshots();
+    Stream<QuerySnapshot> getListaEspecialidades() {
+    return Firestore.instance.collection("especialidades").snapshots();
   }
 
-  void _excluirCobertura(
+  void _excluirEspecialidade(
       BuildContext context, DocumentSnapshot doc, int position) async {
-    db.collection("coberturas").document(doc.documentID).delete();
+    db.collection("especialidades").document(doc.documentID).delete();
 
     setState(() {
-      coberturas.removeAt(position);
+      especialidades.removeAt(position);
     });
   }
 
-  void _irParaCbertura(context, Cobertura cobertura) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => FormularioCobertura(cobertura)));
+  void _irParaEspecialidade(context, Especialidade especialidade) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => FormularioEspecialidade(especialidade)));
   }
 
-  void _criarCobertura(BuildContext context, Cobertura cobertura)async {
+  void _criarEspecialidade(BuildContext context, Especialidade cobertura)async {
     await Navigator.push(context, MaterialPageRoute(builder: 
-    (context) => FormularioCobertura(Cobertura(null, ""))));
+    (context) => FormularioEspecialidade(Especialidade(null, ""))));
     //setState(() {});
   }
 }
-
-
