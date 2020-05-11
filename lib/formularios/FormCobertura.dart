@@ -13,7 +13,7 @@ class FormularioCobertura extends StatefulWidget {
 }
 
 class _FormularioCoberturaState extends State<FormularioCobertura> {
-  final db = Firestore.instance;
+  //final db = Firestore.instance;
 
   TextEditingController _ctrlDescricao = TextEditingController();
   

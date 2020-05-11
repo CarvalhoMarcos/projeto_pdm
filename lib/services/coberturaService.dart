@@ -41,8 +41,8 @@ class CoberturaService {
     //setState(() {});
   }
   
-  void setData(Map<String, dynamic> map, Cobertura especialidade){
-    db.collection("coberturas").document(especialidade.id).setData(map);
+  void setData(Map<String, dynamic> map, Cobertura cobertura){
+    db.collection("coberturas").document(cobertura.id).setData(map);
   }
   
 }

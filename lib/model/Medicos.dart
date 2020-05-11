@@ -1,41 +1,41 @@
-import 'package:projeto_pdm/model/Consulta.dart';
-import 'package:projeto_pdm/model/especialidade.dart';
 
 class Medico {
-  int _id;
+  String _id;
   String _nome;
   String _crm;
   String _telefone;
-  Especialidade _especialidade;
+  String _idEspecialidade;
   //List<Consulta> _consultas;
   
-  Medico(this._id, this._nome, this._crm, this._telefone,this._especialidade);
+  Medico(this._id, this._nome, this._crm, this._telefone,this._idEspecialidade);
   
   //ToMap & FromMap
     Map<String, dynamic> toMap(){
-    var map = <String, dynamic>{
-      'id': _id,
-      'nome' : _nome,
-      'crm' : _crm,
-      'telefone' : _telefone,
-      'especialidade' : _especialidade
-    };
+    var map = Map<String, dynamic>();
+      if(_id != null ){
+        map['id'] =_id;
+      }
+      map['nome'] = _nome;
+      map['crm'] = _crm;
+      map['telefone'] = _telefone;
+      map['especialidade'] = _idEspecialidade;
+    
     return map;
   }
 
-  Medico.fromMap(Map<String,dynamic> map){
-    _id = map['id'];
+  Medico.fromMap(Map<String,dynamic> map, String id){
+    this._id = id ?? '';
     _nome = map['nome'];
     _crm = map['crm'];
     _telefone = map['telefone'];
-    _especialidade = map['especialidade'];
+    _idEspecialidade = map['especialidade'];
   }
 
 
 //Getters & Setters
-  int get id => _id;
+  String get id => _id;
 
-  set id(int value) {
+  set id(String value) {
     _id = value;
   }
 
@@ -45,10 +45,10 @@ class Medico {
 
   String get telefone => this._telefone;
 
-  Especialidade get especialidade => this._especialidade;
+  String get especialidade => this._idEspecialidade;
 
-  set especialidade(Especialidade especialidade) =>
-      this._especialidade = especialidade;
+  set especialidade(String especialidade) =>
+      this._idEspecialidade = especialidade;
 
   set crm(String crm) => this._crm = crm;
 

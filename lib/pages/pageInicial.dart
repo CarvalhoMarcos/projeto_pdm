@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_pdm/pages/PageMedico.dart';
 import 'package:projeto_pdm/pages/pageCobertura.dart';
 import 'package:projeto_pdm/pages/pageEspecialidade.dart';
 import 'package:projeto_pdm/pages/pageTipoPagamento.dart';
@@ -47,6 +48,19 @@ class PaginaInicial extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => FormasPagamento(),
+                    ));
+              },
+            ),
+          ),
+                    Card(
+            child: ListTile(
+              leading: Icon(Icons.loupe),
+              title: Text("Médicos"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaMedicos(),
                     ));
               },
             ),

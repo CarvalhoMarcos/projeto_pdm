@@ -38,4 +38,26 @@ class EspecialidadeService {
    void setData(Map<String, dynamic> map, Especialidade especialidade){
     db.collection("especialidades").document(especialidade.id).setData(map);
   }
+
+    List<Especialidade> listarEspecialidades(){
+    List<Especialidade> especialidade;
+    db.collection("especialidades").snapshots().listen((snapshot) {
+      especialidade = snapshot.documents.map((documentSnapshot) => Especialidade.fromMap(
+        documentSnapshot.data, documentSnapshot.documentID),
+      ).toList();
+     });
+      return especialidade;  
+  }
+
+  // Future<Especialidade> getEspecialidadePorId(String especialidadeId) async {
+  //   Especialidade especialidade;
+  //   var docSnap = await db.collection("especialidades").document(especialidadeId).get();
+  //   especialidade = Especialidade.fromMap(docSnap.data, docSnap.documentID);
+  //   return especialidade;
+  // }
+
+  Stream<DocumentSnapshot> getEspecialidadePorId(String especialidadeId){
+    return db.collection("especialidades").document(especialidadeId).snapshots();
+  }
+
 }
