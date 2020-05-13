@@ -1,97 +1,90 @@
-
-import 'package:projeto_pdm/model/Cobertura.dart';
-import 'package:projeto_pdm/model/Medicos.dart';
-import 'package:projeto_pdm/model/Paciente.dart';
-import 'package:projeto_pdm/model/Pagamento.dart';
-import 'package:projeto_pdm/model/Prescicao.dart';
-import 'package:projeto_pdm/model/RequisicaoExame.dart';
-
 class Consulta {
-  int _id;
-  DateTime _data;
-  Paciente _paciente;
-  List<Pagamento> _pagamentos;
-  List<PrescricaoMedicamento> _prescricoes;
-  List<RequisicaoExame> _requisicoes;
-  Cobertura _cobertura;
-  Medico _medico;
+  String _id;
+  String _data;
+  String _paciente;
+  String _pagamento;
+  String _prescricao;
+  String _requisicao;
+  String _cobertura;
+  String _medico;
 
-  Consulta(this._id, this._data, this._cobertura, this._medico, 
-           this._paciente, this._pagamentos, this._prescricoes, 
-           this._requisicoes);
+  Consulta(this._id, this._data, this._cobertura, this._medico, this._paciente,
+      this._pagamento, this._prescricao, this._requisicao);
 
   //ToMap e FromMap
-    Map<String, dynamic> toMap(){
-    var map = <String, dynamic>{
-      'id': _id,
-      'data' : _data,
-      'paciente' : _paciente,
-      'pagamentos' : _pagamentos,
-      'prescricoes' : _prescricoes,
-      'requisicoes' : _requisicoes,
-      'cobertura' : _cobertura,
-      'medico' : _medico
-    };
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+    if (_id != null) {
+      map['id'] = _id;
+    }
+    map['data'] = _data;
+    map['paciente'] = _paciente;
+    map['pagamento'] = _pagamento;
+    map['prescricao'] = _prescricao;
+    map['requisicao'] = _requisicao;
+    map['cobertura'] = _cobertura;
+    map['medico'] = _medico;
+
     return map;
   }
 
-  Consulta.fromMap(Map<String,dynamic> map){
-    _id = map['id'];
+  Consulta.fromMap(Map<String, dynamic> map, String id) {
+    this._id = id ?? '';
     _data = map['data'];
     _paciente = map['paciente'];
-    _pagamentos = map['pagamentos'];
-    _prescricoes = map['prescricoes'];
-    _requisicoes = map['requisicoes'];
+    _pagamento = map['pagamento'];
+    _prescricao = map['prescricao'];
+    _requisicao = map['requisicao'];
     _cobertura = map['cobertura'];
     _medico = map['medico'];
   }
 
   //Setters & Setters
-  Medico get medico => _medico;
+  String get medico => _medico;
 
-  set medico(Medico value) {
+  set medico(String value) {
     _medico = value;
   }
 
-  Cobertura get cobertura => _cobertura;
+  String get cobertura => _cobertura;
 
-  set cobertura(Cobertura value) {
+  set cobertura(String value) {
     _cobertura = value;
   } //Getters & Setters
 
-  int get id => _id;
+  String get id => _id;
 
-  set id(int value) {
+  set id(String value) {
     _id = value;
   }
 
-  DateTime get data => _data;
+  String get data => _data;
 
-  set data(DateTime value) {
+  set data(String value) {
     _data = value;
   }
 
-  Paciente get paciente => _paciente;
+  String get paciente => _paciente;
 
-  set paciente(Paciente value) {
+  set paciente(String value) {
     _paciente = value;
   }
 
-  List<Pagamento> get pagamentos => _pagamentos;
+  String get pagamento => _pagamento;
 
-  set pagamentos(List<Pagamento> value) {
-    _pagamentos = value;
+  set pagamento(String value) {
+    _pagamento = value;
   }
 
-  List<PrescricaoMedicamento> get prescricoes => _prescricoes;
+  String get prescricao => _prescricao;
 
-  set prescricoes(List<PrescricaoMedicamento> value) {
-    _prescricoes = value;
+  set prescricao(String value) {
+    _prescricao = value;
   }
 
-  List<RequisicaoExame> get requisicoes => _requisicoes;
+  String get requisicao => _requisicao;
 
-  set requisicoes(List<RequisicaoExame> value) {
-    _requisicoes = value;
+  set requisicao(String value) {
+    _requisicao = value;
   }
 }

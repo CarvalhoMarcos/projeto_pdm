@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_pdm/pages/PageConsulta.dart';
 import 'package:projeto_pdm/pages/PageMedico.dart';
 import 'package:projeto_pdm/pages/PagePaciente.dart';
 import 'package:projeto_pdm/pages/pageCobertura.dart';
@@ -53,7 +54,7 @@ class PaginaInicial extends StatelessWidget {
               },
             ),
           ),
-                    Card(
+          Card(
             child: ListTile(
               leading: Icon(Icons.loupe),
               title: Text("Médicos"),
@@ -75,6 +76,19 @@ class PaginaInicial extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ListaPacientes(),
+                    ));
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.loupe),
+              title: Text("Consultas Realizadas"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaConsultas(),
                     ));
               },
             ),
@@ -101,4 +115,4 @@ class PaginaInicial extends StatelessWidget {
               },
             ),
           )
-*/          
+*/

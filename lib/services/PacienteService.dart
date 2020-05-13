@@ -57,4 +57,6 @@ class PacienteService {
   void setData(Map<String, dynamic> map, Paciente paciente) {
     db.collection("pacientes").document(paciente.cpf).setData(map);
   }
+
+  
 }
