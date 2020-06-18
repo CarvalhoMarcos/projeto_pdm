@@ -17,7 +17,7 @@ class PaginaInicial extends StatelessWidget {
         children: <Widget>[
           Card(
             child: ListTile(
-              leading: Icon(Icons.account_circle),
+              leading: Image.asset("assets/plano.png",width: 25,height: 25,),
               title: Text("Coberturas"),
               onTap: () {
                 Navigator.push(
@@ -30,7 +30,7 @@ class PaginaInicial extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.loupe),
+              leading: Image.asset("assets/organization.png",width: 25,height: 25,),
               title: Text("Especialidades"),
               onTap: () {
                 Navigator.push(
@@ -43,7 +43,7 @@ class PaginaInicial extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.loupe),
+              leading: Image.asset("assets/money.png",width: 25,height: 25,),
               title: Text("Formas de Pagamento"),
               onTap: () {
                 Navigator.push(
@@ -56,7 +56,7 @@ class PaginaInicial extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.loupe),
+              leading: Image.asset("assets/doctor.png",width: 25,height: 25,),
               title: Text("Médicos"),
               onTap: () {
                 Navigator.push(
@@ -69,7 +69,7 @@ class PaginaInicial extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.loupe),
+              leading: Image.asset("assets/group.png",width: 25,height: 25,),
               title: Text("Pacientes"),
               onTap: () {
                 Navigator.push(
@@ -82,8 +82,8 @@ class PaginaInicial extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.loupe),
-              title: Text("Consultas Realizadas"),
+              leading: Image.asset("assets/consultation.png",width: 25,height: 25,),
+              title: Text("Consultas"),
               onTap: () {
                 Navigator.push(
                     context,

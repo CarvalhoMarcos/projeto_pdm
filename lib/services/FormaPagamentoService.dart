@@ -45,6 +45,6 @@ class FormaPagamentoService {
   }
 
   void setData(Map<String, dynamic> map, FormaPagamento formaPagamento) {
-    db.collection("especialidades").document(formaPagamento.id).setData(map);
+    db.collection("formasPagamento").document(formaPagamento.id).setData(map);
   }
 }

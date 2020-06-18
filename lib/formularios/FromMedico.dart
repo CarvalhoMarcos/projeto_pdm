@@ -20,22 +20,21 @@ class _FormularioMedicoState extends State<FormularioMedico> {
   TextEditingController _ctrlCRM = TextEditingController();
   TextEditingController _ctrlTelefone = TextEditingController();
   String _especialidadeSelecionada;
-  
+
   //var es;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _ctrlCRM = TextEditingController(text: widget.medico.crm);
     _ctrlTelefone = TextEditingController(text: widget.medico.telefone);
     _ctrlNome = TextEditingController(text: widget.medico.nome);
-    
-    if(widget.medico.id != null){
+
+    if (widget.medico.id != null) {
       especialidadeDropDown = widget.medico.especialidade;
     }
     //String espec = widget.medico.especialidade;
 
-    
     // if (espec != "" || espec != null) {
     //   es = StreamBuilder<DocumentSnapshot>(
     //     stream: EspecialidadeService().getEspecialidadePorId(espec),
@@ -45,7 +44,6 @@ class _FormularioMedicoState extends State<FormularioMedico> {
     //     );
 
     // }
-
   }
 
   @override
@@ -74,39 +72,44 @@ class _FormularioMedicoState extends State<FormularioMedico> {
             ),
           ),
           // DropDownEspecialidades(),
-                    StreamBuilder(
-              stream: EspecialidadeService().getListaEspecialidades(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError)
-                  return new Text('Error: ${snapshot.error}');
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StreamBuilder(
+                stream: EspecialidadeService().getListaEspecialidades(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError)
+                    return new Text('Error: ${snapshot.error}');
 
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  default:
-                    List<DocumentSnapshot> docCoberturas =
-                        snapshot.data.documents;
-                    return DropdownButton(
-                      value: especialidadeDropDown,
-                      items: docCoberturas.map((DocumentSnapshot doc) {
-                        return DropdownMenuItem<String>(
-                            value: doc.documentID,
-                            child: Text(doc.data['descricao'].toString()));
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          especialidadeDropDown = value;
-                          _especialidadeSelecionada = value;
-                          print(_especialidadeSelecionada);
-                        });
-                      },
-                    );
-                }
-              }),
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    default:
+                      List<DocumentSnapshot> docCoberturas =
+                          snapshot.data.documents;
+                      return DropdownButton(
+                        isExpanded: true,
+                        hint: Text("Selecione o paciente"),
+                        value: especialidadeDropDown,
+                        items: docCoberturas.map((DocumentSnapshot doc) {
+                          return DropdownMenuItem<String>(
+                              value: doc.documentID,
+                              child: Text(doc.data['descricao'].toString()));
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            especialidadeDropDown = value;
+                            _especialidadeSelecionada = value;
+                            print(_especialidadeSelecionada);
+                          });
+                        },
+                      );
+                  }
+                }),
+          ),
           RaisedButton(
             onPressed: () {
               if (widget.medico.id != null) {
@@ -148,7 +151,7 @@ class _FormularioMedicoState extends State<FormularioMedico> {
 //   var db = Firestore.instance;
 //   static Especialidade dropdownValue;
 
-  //Object dropdownValue = EspecialidadeService().listarEspecialidades().first;
+//Object dropdownValue = EspecialidadeService().listarEspecialidades().first;
 //   @override
 //   void initState() {
 //     super.initState();
@@ -190,4 +193,3 @@ class _FormularioMedicoState extends State<FormularioMedico> {
 //       ),
 //     );
 //   }
- 

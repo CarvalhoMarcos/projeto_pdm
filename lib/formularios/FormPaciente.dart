@@ -37,15 +37,21 @@ class _FormularioPacienteState extends State<FormularioPaciente> {
     _ctrlCpf = TextEditingController(text: widget._paciente.cpf);
     _ctrlRg = TextEditingController(text: widget._paciente.rg);
     _ctrlNome = TextEditingController(text: widget._paciente.nome);
-    _ctrlNascimento =
-        TextEditingController(text: widget._paciente.nascimento.toString());
-    _ctrlTelefone =
-        TextEditingController(text: widget._paciente.telefone.toString());
+    if(widget._paciente.nascimento == null){
+      _ctrlNascimento = TextEditingController(text: "  /  /    ");
+    }else{
+      _ctrlNascimento = TextEditingController(text: widget._paciente.telefone.toString());
+    }
+      if(widget._paciente.nascimento == null){
+      _ctrlTelefone = TextEditingController(text: "");
+    }else{
+      _ctrlTelefone = TextEditingController(text: widget._paciente.telefone.toString());
+    }
+    
 
     if (widget._endereco != null) {
       _ctrlRua = TextEditingController(text: widget._endereco.logradouro);
-      _ctrlNumero =
-          TextEditingController(text: widget._endereco.numero.toString());
+      _ctrlNumero = TextEditingController(text: widget._endereco.numero.toString());
       _ctrlEstado = TextEditingController(text: widget._endereco.estado);
       _ctrlCidade = TextEditingController(text: widget._endereco.cidade);
       _ctrlCep = TextEditingController(text: widget._endereco.cep.toString());

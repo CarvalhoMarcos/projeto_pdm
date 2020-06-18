@@ -23,7 +23,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   TextEditingController _ctrlEmail = TextEditingController();
   TextEditingController _ctrlSenha = TextEditingController();
 
@@ -61,20 +60,41 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.all(35),
           child: Column(
             children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(70),
+                decoration: BoxDecoration(
+                  color: Colors.lightGreen,
+                  borderRadius:
+                      BorderRadius.only(bottomLeft: Radius.circular(75)),
+                ),
+                child: SizedBox(
+                  width: 128,
+                  height: 128,
+                  child: Image.asset("assets/hospital.png"),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 250, 8, 8),
+                padding: const EdgeInsets.only(top: 16),
+                child: Text(
+                  "Bem vindo a Dev-Clin",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(35, 50, 35, 8),
                 child: emailField,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(35, 5, 35, 8),
                 child: passwordField,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(75, 10, 75, 8),
                 child: buttonLogin,
               )
             ],
@@ -105,9 +125,11 @@ class _LoginState extends State<Login> {
                 child: Text("Verifique se Email ou Senha estão corretos"),
               ),
               actions: <Widget>[
-                FlatButton(onPressed: () {
-                  Navigator.of(context).pop();
-                }, child: Text("ok"))
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("ok"))
               ],
             );
           });
